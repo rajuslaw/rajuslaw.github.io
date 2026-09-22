@@ -3,7 +3,12 @@
 .case-hero {
   padding: 150px 0 90px;
   background: #f7f7f4;
+  color: #16181d;
   border-bottom: 1px solid #e7e7e2;
+}
+
+.case-hero h1 {
+  color: #16181d;
 }
 
 .case-hero-inner {
@@ -43,7 +48,7 @@
 .case-hero h1 {
   max-width: 900px;
   margin: 0;
-  font-size: clamp(48px, 7vw, 88px);
+  font-size: clamp(46px, 6vw, 76px);
   line-height: .98;
   letter-spacing: -0.055em;
 }
@@ -83,6 +88,7 @@
 .case-meta strong {
   font-size: 14px;
   font-weight: 600;
+  color: #16181d;
 }
 
 .case-section {
@@ -98,6 +104,15 @@
 
 .case-section.case-light {
   background: #f7f7f4;
+}
+
+.case-section:not(.case-dark) {
+  color: #16181d;
+}
+
+.case-section:not(.case-dark) h2,
+.case-section:not(.case-dark) h3 {
+  color: #16181d;
 }
 
 .case-grid {
