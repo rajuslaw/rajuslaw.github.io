@@ -1,0 +1,1377 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Contract Intelligence | Raju Singh
+    </title>
+
+    <meta
+        name="description"
+        content="Enterprise RAG architecture case study by Raju Singh."
+    >
+
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="contract-intelligence.css"
+    >
+
+    <!-- Mermaid -->
+    <script type="module">
+
+        import mermaid from
+        "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: "dark"
+        });
+
+    </script>
+
+</head>
+
+
+<body>
+
+
+<!-- ================= HEADER ================= -->
+
+<header class="site-header">
+
+    <div class="container nav">
+
+        <a href="../index.html" class="logo">
+            Raju Singh<span>.</span>
+        </a>
+
+        <nav>
+
+            <a href="../index.html#work">
+                Work
+            </a>
+
+            <a href="../index.html#approach">
+                Engineering
+            </a>
+
+            <a href="../index.html#about">
+                About
+            </a>
+
+            <a href="../index.html#writing">
+                Writing
+            </a>
+
+        </nav>
+
+        <a
+            href="https://github.com/rajuslaw"
+            target="_blank"
+            class="github-link"
+        >
+            GitHub ↗
+        </a>
+
+    </div>
+
+</header>
+
+
+
+<!-- ================= CASE STUDY HERO ================= -->
+
+<main>
+
+<section class="case-hero">
+
+    <div class="container">
+
+        <a
+            href="../index.html#work"
+            class="back-link"
+        >
+            ← Back to selected work
+        </a>
+
+
+        <div class="case-label">
+            ENTERPRISE RAG · PROCUREMENT & SUPPLY CHAIN
+        </div>
+
+
+        <h1>
+            Contract Intelligence
+        </h1>
+
+
+        <p class="case-subtitle">
+            An enterprise RAG agent that provides procurement
+            and contract-management teams with a single,
+            access-controlled source of truth across fragmented
+            enterprise systems.
+        </p>
+
+
+        <div class="case-badges">
+
+            <span>Hybrid RAG</span>
+            <span>Cross-Encoder Reranking</span>
+            <span>RBAC</span>
+            <span>Guardrails</span>
+            <span>LLM Failover</span>
+
+        </div>
+
+
+        <div class="case-note">
+
+            <strong>Sanitized case study.</strong>
+
+            Internal business-system names are generalized.
+            The architecture and engineering decisions are my own.
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ================= OVERVIEW ================= -->
+
+<section class="case-section">
+
+    <div class="container">
+
+        <div class="case-grid">
+
+            <div class="case-sidebar">
+
+                <span class="case-number">
+                    01
+                </span>
+
+                <h2>
+                    The problem
+                </h2>
+
+            </div>
+
+
+            <div class="case-content">
+
+                <p>
+                    Contract information lived in four disconnected
+                    systems.
+                </p>
+
+
+                <div class="system-list">
+
+                    <div>
+
+                        <span>01</span>
+
+                        <strong>
+                            Procurement & spend-management
+                        </strong>
+
+                        <p>
+                            Master contracts and terms.
+                        </p>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>02</span>
+
+                        <strong>
+                            ERP
+                        </strong>
+
+                        <p>
+                            Purchase orders and payments.
+                        </p>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>03</span>
+
+                        <strong>
+                            Invoicing systems
+                        </strong>
+
+                        <p>
+                            Invoice information.
+                        </p>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>04</span>
+
+                        <strong>
+                            Regional contract system
+                        </strong>
+
+                        <p>
+                            Contracts for regions not yet
+                            migrated to the main platform.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="highlight">
+
+                    <strong>
+                        The resulting problem
+                    </strong>
+
+                    <p>
+                        The contract team had no single source
+                        of truth. They missed rebate opportunities,
+                        lacked intelligence during purchase-order
+                        placement, struggled to prepare for
+                        negotiations, and spent hours manually
+                        searching across systems.
+                    </p>
+
+                </div>
+
+
+                <h3>
+                    Goal
+                </h3>
+
+                <p>
+                    One AI agent — natural-language in,
+                    cited answer out — accurate,
+                    access-controlled and reliable enough
+                    for enterprise procurement decisions.
+                </p>
+
+
+                <div class="question-list">
+
+                    <div>
+                        “What discount does Vendor A offer
+                        on electronics?”
+                    </div>
+
+                    <div>
+                        “When does our contract with Vendor B expire?”
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ================= ARCHITECTURE ================= -->
+
+<section class="case-section case-dark">
+
+    <div class="container">
+
+        <div class="case-grid">
+
+            <div class="case-sidebar">
+
+                <span class="case-number">
+                    02
+                </span>
+
+                <h2>
+                    Architecture
+                </h2>
+
+            </div>
+
+
+            <div class="case-content">
+
+                <p>
+                    The system is deliberately separated into
+                    two flows: a batch ingestion pipeline and
+                    a real-time query pipeline.
+                </p>
+
+                <p>
+                    Ingestion is throughput-oriented and
+                    reprocessable. The query path is
+                    latency-oriented and user-facing.
+                </p>
+
+
+                <div class="architecture-diagram">
+
+                    <div class="mermaid">
+
+flowchart LR
+
+    A["Enterprise Sources"]
+        -->
+
+    B["Batch Ingestion"]
+
+        -->
+
+    C["S3 Raw Landing"]
+
+        -->
+
+    D["ETL / Processing"]
+
+        -->
+
+    E["Embeddings"]
+
+        -->
+
+    F[("Pinecone")]
+
+    D --> G[("PostgreSQL")]
+
+    F --> H["Query Pipeline"]
+
+    G --> H
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ================= INGESTION ================= -->
+
+<section class="case-section">
+
+    <div class="container">
+
+        <div class="case-grid">
+
+            <div class="case-sidebar">
+
+                <span class="case-number">
+                    03
+                </span>
+
+                <h2>
+                    Ingestion pipeline
+                </h2>
+
+            </div>
+
+
+            <div class="case-content">
+
+                <p>
+                    Data is pulled from the four source systems
+                    on a scheduled cadence and lands in an S3
+                    raw landing zone.
+                </p>
+
+
+                <div class="architecture-diagram">
+
+                    <div class="mermaid">
+
+flowchart LR
+
+    A1["Procurement"]
+    A2["ERP"]
+    A3["Invoices"]
+    A4["Regional Contracts"]
+
+    A1 --> B["Batch ingestion"]
+    A2 --> B
+    A3 --> B
+    A4 --> B
+
+    B --> C[("S3")]
+
+    C --> D["ETL"]
+
+    D --> D1["Metadata"]
+    D --> D2["PII scan"]
+    D --> D3["Classification"]
+    D --> D4["Deduplication"]
+
+    D1 --> E[("PostgreSQL")]
+
+    D2 --> F["Embedding"]
+
+    D3 --> E
+
+    D4 --> F
+
+    F --> G[("Pinecone")]
+
+                    </div>
+
+                </div>
+
+
+                <div class="engineering-list">
+
+                    <article>
+
+                        <span>01</span>
+
+                        <h3>
+                            Metadata extraction
+                        </h3>
+
+                        <p>
+                            Vendor ID, contract ID, contract type,
+                            region, dates and amounts are extracted
+                            and stored in PostgreSQL.
+                        </p>
+
+                    </article>
+
+
+                    <article>
+
+                        <span>02</span>
+
+                        <h3>
+                            PII protection
+                        </h3>
+
+                        <p>
+                            Documents are scanned for personally
+                            identifiable information. Tokenization
+                            and masking occur before data moves
+                            further into the pipeline.
+                        </p>
+
+                    </article>
+
+
+                    <article>
+
+                        <span>03</span>
+
+                        <h3>
+                            Document classification
+                        </h3>
+
+                        <p>
+                            Documents are classified as purchase
+                            orders, invoices, master contracts
+                            or amendments.
+                        </p>
+
+                    </article>
+
+
+                    <article>
+
+                        <span>04</span>
+
+                        <h3>
+                            Deduplication
+                        </h3>
+
+                        <p>
+                            An MD5 content hash identifies duplicate
+                            content and detects document changes.
+                        </p>
+
+                    </article>
+
+
+                    <article>
+
+                        <span>05</span>
+
+                        <h3>
+                            Change propagation
+                        </h3>
+
+                        <p>
+                            Updates and deletions propagate through
+                            the vector store, metadata store and
+                            cache to keep the system synchronized.
+                        </p>
+
+                    </article>
+
+                </div>
+
+
+                <div class="technical-note">
+
+                    <strong>
+                        MD5 is used only for content comparison
+                        and deduplication.
+                    </strong>
+
+                    It is not used as a security primitive.
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ================= QUERY PIPELINE ================= -->
+
+<section class="case-section case-dark">
+
+    <div class="container">
+
+        <div class="case-grid">
+
+            <div class="case-sidebar">
+
+                <span class="case-number">
+                    04
+                </span>
+
+                <h2>
+                    Query pipeline
+                </h2>
+
+            </div>
+
+
+            <div class="case-content">
+
+                <p>
+                    The query path is optimized for latency,
+                    authorization and answer quality.
+                </p>
+
+
+                <div class="architecture-diagram">
+
+                    <div class="mermaid">
+
+flowchart TB
+
+    U["User question"]
+
+    U -->
+
+    GW["API Gateway
+    AuthN / AuthZ"]
+
+    GW -->
+
+    IG["Input Guardrails
+    PII / Injection / Scope"]
+
+    IG -->
+
+    QP["Query preprocessing"]
+
+    QP -->
+
+    EMB["Query embedding"]
+
+    EMB -->
+
+    HS{"Hybrid search"}
+
+    HS -->
+
+    KW["Keyword search"]
+
+    HS -->
+
+    SEM["Semantic search"]
+
+    KW -->
+
+    RR["Cross-encoder reranker"]
+
+    SEM -->
+
+    RR
+
+    RR -->
+
+    CTX["Context assembly"]
+
+    CTX -->
+
+    LLM["LLM Router"]
+
+    LLM -->
+
+    OV["Output validation"]
+
+    OV -->
+
+    CI["Citations"]
+
+    CI -->
+
+    R["Answer"]
+
+                    </div>
+
+                </div>
+
+
+                <div class="pipeline-steps">
+
+
+                    <article>
+
+                        <span>01</span>
+
+                        <h3>
+                            Authentication & authorization
+                        </h3>
+
+                        <p>
+                            The gateway establishes user identity
+                            and extracts role/group membership
+                            for downstream RBAC filtering.
+                        </p>
+
+                    </article>
+
+
+                    <article>
+
+                        <span>02</span>
+
+                        <h3>
+                            Input guardrails
+                        </h3>
+
+                        <p>
+                            Microsoft Presidio handles PII,
+                            prompt-injection and scope checks
+                            early in the request.
+                        </p>
+
+                    </article>
+
+
+                    <article>
+
+                        <span>03</span>
+
+                        <h3>
+                            Query preprocessing
+                        </h3>
+
+                        <p>
+                            Structured filters such as vendor,
+                            region and document type are extracted
+                            as predicates.
+                        </p>
+
+                    </article>
+
+
+                    <article>
+
+                        <span>04</span>
+
+                        <h3>
+                            Hybrid retrieval
+                        </h3>
+
+                        <p>
+                            Keyword and semantic search execute
+                            in parallel. Structured metadata provides
+                            precision while semantic search captures
+                            meaning.
+                        </p>
+
+                    </article>
+
+
+                    <article>
+
+                        <span>05</span>
+
+                        <h3>
+                            Query-time RBAC
+                        </h3>
+
+                        <p>
+                            Authorization filters are passed directly
+                            to the vector query rather than retrieving
+                            unauthorized documents and filtering later.
+                        </p>
+
+                    </article>
+
+
+                    <article>
+
+                        <span>06</span>
+
+                        <h3>
+                            Cross-encoder reranking
+                        </h3>
+
+                        <p>
+                            Search results are merged and reranked
+                            using a self-hosted cross-encoder.
+                        </p>
+
+                    </article>
+
+
+                    <article>
+
+                        <span>07</span>
+
+                        <h3>
+                            LLM routing
+                        </h3>
+
+                        <p>
+                            LiteLLM provides provider abstraction
+                            and model failover.
+                        </p>
+
+                    </article>
+
+
+                    <article>
+
+                        <span>08</span>
+
+                        <h3>
+                            Output validation
+                        </h3>
+
+                        <p>
+                            Responses are checked for PII,
+                            sensitive information and grounding
+                            before reaching the user.
+                        </p>
+
+                    </article>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ================= CACHING ================= -->
+
+<section class="case-section">
+
+    <div class="container">
+
+        <div class="case-grid">
+
+            <div class="case-sidebar">
+
+                <span class="case-number">
+                    05
+                </span>
+
+                <h2>
+                    Caching
+                </h2>
+
+            </div>
+
+
+            <div class="case-content">
+
+                <div class="metric-grid">
+
+                    <div>
+                        <span>Population</span>
+
+                        <strong>
+                            Frequent vendor / contract queries
+                        </strong>
+                    </div>
+
+                    <div>
+                        <span>TTL</span>
+
+                        <strong>
+                            ~4 weeks
+                        </strong>
+                    </div>
+
+                    <div>
+                        <span>Invalidation</span>
+
+                        <strong>
+                            Immediate on content change
+                        </strong>
+                    </div>
+
+                    <div>
+                        <span>Fallback</span>
+
+                        <strong>
+                            Cache → graceful degradation
+                        </strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ================= RESILIENCY ================= -->
+
+<section class="case-section case-dark">
+
+    <div class="container">
+
+        <div class="case-grid">
+
+            <div class="case-sidebar">
+
+                <span class="case-number">
+                    06
+                </span>
+
+                <h2>
+                    Resiliency
+                </h2>
+
+            </div>
+
+
+            <div class="case-content">
+
+                <div class="failure-table">
+
+                    <div class="failure-row failure-header">
+
+                        <span>
+                            Failure
+                        </span>
+
+                        <span>
+                            Handling
+                        </span>
+
+                    </div>
+
+
+                    <div class="failure-row">
+
+                        <strong>
+                            Vector store unavailable
+                        </strong>
+
+                        <span>
+                            Serve from cache → graceful
+                            degradation.
+                        </span>
+
+                    </div>
+
+
+                    <div class="failure-row">
+
+                        <strong>
+                            LLM model issue
+                        </strong>
+
+                        <span>
+                            LiteLLM failover to another model.
+                        </span>
+
+                    </div>
+
+
+                    <div class="failure-row">
+
+                        <strong>
+                            Provider outage
+                        </strong>
+
+                        <span>
+                            Cross-provider model failover.
+                        </span>
+
+                    </div>
+
+
+                    <div class="failure-row">
+
+                        <strong>
+                            Rate limited
+                        </strong>
+
+                        <span>
+                            Cache first; otherwise queue request.
+                        </span>
+
+                    </div>
+
+
+                    <div class="failure-row">
+
+                        <strong>
+                            Document corruption
+                        </strong>
+
+                        <span>
+                            Hash mismatch → reconciliation →
+                            re-ingestion.
+                        </span>
+
+                    </div>
+
+
+                    <div class="failure-row">
+
+                        <strong>
+                            Source deletion
+                        </strong>
+
+                        <span>
+                            Remove embeddings, archive metadata
+                            and invalidate cache.
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ================= TRADE OFFS ================= -->
+
+<section class="case-section">
+
+    <div class="container">
+
+        <div class="case-grid">
+
+            <div class="case-sidebar">
+
+                <span class="case-number">
+                    07
+                </span>
+
+                <h2>
+                    Trade-offs
+                </h2>
+
+            </div>
+
+
+            <div class="case-content">
+
+                <div class="tradeoff-list">
+
+
+                    <article>
+
+                        <strong>
+                            Pinecone
+                        </strong>
+
+                        <span>
+                            Managed vector store
+                        </span>
+
+                        <p>
+                            Reduced operational overhead and
+                            provided query-time metadata filtering.
+                            Trade-off: vendor lock-in and cost at scale.
+                        </p>
+
+                    </article>
+
+
+                    <article>
+
+                        <strong>
+                            Self-hosted reranker
+                        </strong>
+
+                        <span>
+                            Cross-encoder
+                        </span>
+
+                        <p>
+                            Avoided per-call API cost and kept
+                            latency around the desired range.
+                            Trade-off: infrastructure ownership.
+                        </p>
+
+                    </article>
+
+
+                    <article>
+
+                        <strong>
+                            Hybrid search
+                        </strong>
+
+                        <span>
+                            Keyword + semantic
+                        </span>
+
+                        <p>
+                            Combined exact metadata matching
+                            with semantic recall.
+                            Trade-off: additional system complexity.
+                        </p>
+
+                    </article>
+
+
+                    <article>
+
+                        <strong>
+                            Conditional grounding
+                        </strong>
+
+                        <span>
+                            Confidence-based validation
+                        </span>
+
+                        <p>
+                            Reduced unnecessary grounding latency
+                            for high-confidence responses.
+                        </p>
+
+                    </article>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ================= SCALING ================= -->
+
+<section class="case-section case-dark">
+
+    <div class="container">
+
+        <div class="case-grid">
+
+            <div class="case-sidebar">
+
+                <span class="case-number">
+                    08
+                </span>
+
+                <h2>
+                    Scaling
+                </h2>
+
+            </div>
+
+
+            <div class="case-content">
+
+                <div class="scaling-grid">
+
+                    <div>
+
+                        <span>
+                            COMPUTE
+                        </span>
+
+                        <strong>
+                            Kubernetes
+                        </strong>
+
+                        <p>
+                            Horizontal pod scaling absorbs
+                            increasing API traffic.
+                        </p>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            DATABASE
+                        </span>
+
+                        <strong>
+                            PostgreSQL
+                        </strong>
+
+                        <p>
+                            Write primary with read replicas
+                            for concurrent query load.
+                        </p>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            VECTOR STORE
+                        </span>
+
+                        <strong>
+                            Managed scaling
+                        </strong>
+
+                        <p>
+                            Managed vector infrastructure
+                            scales independently.
+                        </p>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            10× GROWTH
+                        </span>
+
+                        <strong>
+                            Pods + replicas + index
+                        </strong>
+
+                        <p>
+                            Scale compute, read capacity and
+                            managed vector infrastructure.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ================= WHAT I WOULD REVISIT ================= -->
+
+<section class="case-section">
+
+    <div class="container">
+
+        <div class="case-grid">
+
+            <div class="case-sidebar">
+
+                <span class="case-number">
+                    09
+                </span>
+
+                <h2>
+                    What I'd revisit
+                </h2>
+
+            </div>
+
+
+            <div class="case-content">
+
+                <div class="revisit-list">
+
+                    <div>
+                        <span>01</span>
+                        Move batch ingestion toward real-time CDC.
+                    </div>
+
+                    <div>
+                        <span>02</span>
+                        Run automated grounding on all responses
+                        when the latency budget allows.
+                    </div>
+
+                    <div>
+                        <span>03</span>
+                        Introduce parallel search earlier in the
+                        design cycle.
+                    </div>
+
+                    <div>
+                        <span>04</span>
+                        Add automated fact-checking to complement
+                        citation-based human verification.
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ================= MY ROLE ================= -->
+
+<section class="role-section">
+
+    <div class="container">
+
+        <div class="role-box">
+
+            <div>
+
+                <div class="eyebrow">
+                    MY ROLE
+                </div>
+
+                <h2>
+                    Architecture,
+                    engineering and delivery.
+                </h2>
+
+            </div>
+
+
+            <div>
+
+                <p>
+                    I led the system end to end: the architecture,
+                    ingestion/query split, hybrid-search and
+                    reranking strategy, guardrail and grounding
+                    design, model failover and the team that
+                    delivered it.
+                </p>
+
+
+                <div class="stack">
+
+                    <span>RAG</span>
+                    <span>Hybrid Retrieval</span>
+                    <span>Cross-Encoder</span>
+                    <span>PostgreSQL</span>
+                    <span>Pinecone</span>
+                    <span>OpenAI</span>
+                    <span>LiteLLM</span>
+                    <span>Presidio</span>
+                    <span>S3</span>
+                    <span>Kubernetes</span>
+                    <span>Python</span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+</main>
+
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+    <div class="container footer-inner">
+
+        <a href="../index.html">
+            ← Back to portfolio
+        </a>
+
+        <span>
+            Raju Singh · Contract Intelligence
+        </span>
+
+    </div>
+
+</footer>
+
+
+</body>
+
+</html>

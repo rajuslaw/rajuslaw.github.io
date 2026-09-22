@@ -1,0 +1,727 @@
+/* =========================================
+   CASE STUDY
+========================================= */
+
+.case-hero {
+    padding: 100px 0 90px;
+
+    border-bottom: 1px solid var(--border);
+}
+
+.back-link {
+    display: inline-block;
+
+    margin-bottom: 70px;
+
+    color: var(--muted);
+
+    font-size: 13px;
+}
+
+.back-link:hover {
+    color: var(--text);
+}
+
+.case-label {
+    color: var(--accent);
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    letter-spacing: .13em;
+}
+
+.case-hero h1 {
+    margin-top: 20px;
+
+    font-size: clamp(
+        52px,
+        8vw,
+        100px
+    );
+
+    line-height: .95;
+
+    letter-spacing: -.065em;
+}
+
+.case-subtitle {
+    max-width: 780px;
+
+    margin-top: 30px;
+
+    color: #aeb5c0;
+
+    font-size: 20px;
+
+    line-height: 1.7;
+}
+
+.case-badges {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 8px;
+
+    margin-top: 35px;
+}
+
+.case-badges span,
+.stack span {
+    border: 1px solid var(--border);
+
+    border-radius: 5px;
+
+    padding: 6px 10px;
+
+    color: #aeb5c0;
+
+    font-size: 11px;
+}
+
+.case-note {
+    max-width: 760px;
+
+    margin-top: 35px;
+
+    padding: 16px 20px;
+
+    border-left: 3px solid var(--accent);
+
+    background: rgba(114,230,165,.05);
+
+    color: #929aa7;
+
+    font-size: 13px;
+}
+
+
+/* =========================================
+   SECTIONS
+========================================= */
+
+.case-section {
+    padding: 105px 0;
+}
+
+.case-dark {
+    background: #0d0f13;
+}
+
+.case-grid {
+    display: grid;
+
+    grid-template-columns: 250px 1fr;
+
+    gap: 80px;
+}
+
+.case-sidebar {
+    position: relative;
+}
+
+.case-number {
+    display: block;
+
+    color: #555c67;
+
+    font-family:
+        "SFMono-Regular",
+        Consolas,
+        monospace;
+
+    font-size: 12px;
+
+    margin-bottom: 15px;
+}
+
+.case-sidebar h2 {
+    margin: 0;
+
+    font-size: 30px;
+
+    line-height: 1.1;
+
+    letter-spacing: -.04em;
+}
+
+.case-content {
+    max-width: 850px;
+}
+
+.case-content > p {
+    color: #adb4bf;
+
+    font-size: 17px;
+
+    line-height: 1.8;
+
+    margin-bottom: 25px;
+}
+
+.case-content h3 {
+    margin-top: 45px;
+
+    margin-bottom: 10px;
+
+    font-size: 21px;
+}
+
+
+/* =========================================
+   SYSTEM LIST
+========================================= */
+
+.system-list {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    margin: 45px 0;
+
+    border-top: 1px solid var(--border);
+
+    border-left: 1px solid var(--border);
+}
+
+.system-list > div {
+    padding: 25px;
+
+    border-right: 1px solid var(--border);
+
+    border-bottom: 1px solid var(--border);
+}
+
+.system-list span {
+    color: var(--accent);
+
+    font-family:
+        "SFMono-Regular",
+        Consolas,
+        monospace;
+
+    font-size: 11px;
+}
+
+.system-list strong {
+    display: block;
+
+    margin-top: 15px;
+
+    font-size: 15px;
+}
+
+.system-list p {
+    margin-top: 6px;
+
+    color: #858d99;
+
+    font-size: 13px;
+}
+
+
+/* =========================================
+   HIGHLIGHT
+========================================= */
+
+.highlight {
+    margin: 45px 0;
+
+    padding: 25px;
+
+    border: 1px solid var(--border);
+
+    background: #11141a;
+
+    border-radius: 7px;
+}
+
+.highlight strong {
+    color: var(--accent);
+
+    font-size: 13px;
+}
+
+.highlight p {
+    margin-top: 10px;
+
+    color: #aeb5c0;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================
+   QUESTIONS
+========================================= */
+
+.question-list {
+    display: grid;
+
+    gap: 10px;
+
+    margin-top: 25px;
+}
+
+.question-list div {
+    padding: 16px 20px;
+
+    border-left: 2px solid #3b414c;
+
+    color: #9ea6b2;
+
+    font-size: 14px;
+
+    font-style: italic;
+}
+
+
+/* =========================================
+   DIAGRAM
+========================================= */
+
+.architecture-diagram {
+    margin: 45px 0;
+
+    padding: 25px;
+
+    background: #080a0e;
+
+    border: 1px solid var(--border);
+
+    border-radius: 8px;
+
+    overflow-x: auto;
+}
+
+.mermaid {
+    min-width: 650px;
+}
+
+
+/* =========================================
+   ENGINEERING LIST
+========================================= */
+
+.engineering-list {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 1px;
+
+    margin-top: 40px;
+
+    background: var(--border);
+
+    border: 1px solid var(--border);
+}
+
+.engineering-list article {
+    padding: 25px;
+
+    background: #0d0f13;
+}
+
+.engineering-list span,
+.pipeline-steps span {
+    color: var(--accent);
+
+    font-family:
+        "SFMono-Regular",
+        Consolas,
+        monospace;
+
+    font-size: 11px;
+}
+
+.engineering-list h3,
+.pipeline-steps h3 {
+    margin-top: 15px;
+
+    font-size: 18px;
+}
+
+.engineering-list p,
+.pipeline-steps p {
+    margin-top: 8px;
+
+    color: #8f97a3;
+
+    font-size: 13px;
+
+    line-height: 1.7;
+}
+
+.technical-note {
+    margin-top: 25px;
+
+    color: #858d98;
+
+    font-size: 13px;
+}
+
+
+/* =========================================
+   PIPELINE
+========================================= */
+
+.pipeline-steps {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 45px 50px;
+
+    margin-top: 50px;
+}
+
+
+/* =========================================
+   METRICS
+========================================= */
+
+.metric-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    border-top: 1px solid var(--border);
+
+    border-left: 1px solid var(--border);
+}
+
+.metric-grid div {
+    padding: 28px;
+
+    border-right: 1px solid var(--border);
+
+    border-bottom: 1px solid var(--border);
+}
+
+.metric-grid span,
+.scaling-grid span {
+    display: block;
+
+    color: #68717e;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: .12em;
+}
+
+.metric-grid strong {
+    display: block;
+
+    margin-top: 13px;
+
+    font-size: 17px;
+}
+
+
+/* =========================================
+   FAILURE TABLE
+========================================= */
+
+.failure-table {
+    border: 1px solid var(--border);
+}
+
+.failure-row {
+    display: grid;
+
+    grid-template-columns:
+        240px 1fr;
+
+    gap: 25px;
+
+    padding: 18px 22px;
+
+    border-bottom: 1px solid var(--border);
+
+    color: #aeb5c0;
+
+    font-size: 13px;
+}
+
+.failure-row:last-child {
+    border-bottom: none;
+}
+
+.failure-header {
+    background: #151820;
+
+    color: #68717e;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: .12em;
+
+    text-transform: uppercase;
+}
+
+.failure-row strong {
+    color: var(--text);
+}
+
+
+/* =========================================
+   TRADEOFFS
+========================================= */
+
+.tradeoff-list {
+    border-top: 1px solid var(--border);
+}
+
+.tradeoff-list article {
+    display: grid;
+
+    grid-template-columns:
+        180px 180px 1fr;
+
+    gap: 20px;
+
+    padding: 22px 0;
+
+    border-bottom: 1px solid var(--border);
+
+    align-items: start;
+}
+
+.tradeoff-list strong {
+    font-size: 15px;
+}
+
+.tradeoff-list span {
+    color: var(--accent);
+
+    font-size: 12px;
+}
+
+.tradeoff-list p {
+    color: #858d99;
+
+    font-size: 13px;
+
+    margin: 0;
+}
+
+
+/* =========================================
+   SCALING
+========================================= */
+
+.scaling-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 1px;
+
+    background: var(--border);
+
+    border: 1px solid var(--border);
+}
+
+.scaling-grid > div {
+    padding: 30px;
+
+    background: #0d0f13;
+}
+
+.scaling-grid strong {
+    display: block;
+
+    margin-top: 14px;
+
+    font-size: 18px;
+}
+
+.scaling-grid p {
+    margin-top: 8px;
+
+    color: #858d99;
+
+    font-size: 13px;
+}
+
+
+/* =========================================
+   REVISIT
+========================================= */
+
+.revisit-list {
+    border-top: 1px solid var(--border);
+}
+
+.revisit-list div {
+    display: grid;
+
+    grid-template-columns: 45px 1fr;
+
+    gap: 20px;
+
+    padding: 22px 0;
+
+    border-bottom: 1px solid var(--border);
+
+    color: #aeb5c0;
+
+    font-size: 15px;
+}
+
+.revisit-list span {
+    color: var(--accent);
+
+    font-family:
+        "SFMono-Regular",
+        Consolas,
+        monospace;
+
+    font-size: 11px;
+}
+
+
+/* =========================================
+   ROLE
+========================================= */
+
+.role-section {
+    padding: 100px 0;
+
+    background: var(--accent);
+
+    color: #07120c;
+}
+
+.role-box {
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 100px;
+}
+
+.role-section .eyebrow {
+    color: #246b43;
+}
+
+.role-section h2 {
+    margin-top: 15px;
+
+    max-width: 450px;
+
+    font-size: clamp(
+        38px,
+        5vw,
+        65px
+    );
+
+    line-height: 1;
+
+    letter-spacing: -.055em;
+}
+
+.role-box > div:last-child > p {
+    max-width: 600px;
+
+    font-size: 17px;
+
+    line-height: 1.8;
+}
+
+.stack {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 7px;
+
+    margin-top: 25px;
+}
+
+.stack span {
+    border-color: rgba(0,0,0,.25);
+
+    color: #17482c;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 850px) {
+
+    .case-grid {
+        grid-template-columns: 1fr;
+
+        gap: 35px;
+    }
+
+    .case-sidebar h2 {
+        font-size: 25px;
+    }
+
+    .role-box {
+        grid-template-columns: 1fr;
+
+        gap: 45px;
+    }
+
+    .tradeoff-list article {
+        grid-template-columns: 1fr;
+
+        gap: 8px;
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .case-hero {
+        padding: 70px 0;
+    }
+
+    .case-hero h1 {
+        font-size: 52px;
+    }
+
+    .case-section {
+        padding: 75px 0;
+    }
+
+    .system-list,
+    .engineering-list,
+    .pipeline-steps,
+    .metric-grid,
+    .scaling-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .failure-row {
+        grid-template-columns: 1fr;
+
+        gap: 7px;
+    }
+
+    .architecture-diagram {
+        margin-left: -10px;
+
+        margin-right: -10px;
+    }
+
+}
