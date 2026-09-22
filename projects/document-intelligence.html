@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI-Powered Invoice Extraction | Raju Singh</title>
+  <meta name="description" content="Case study: AI-powered invoice extraction using OCR, LLM extraction, and human-in-the-loop review.">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="document-intelligence.css">
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="../index.html">Raju Singh</a>
+      <nav>
+        <a href="../index.html#work">Work</a>
+        <a href="../index.html#engineering">Engineering</a>
+        <a href="../index.html#about">About</a>
+        <a href="../index.html#writing">Writing</a>
+        <a href="https://github.com/rajuslaw" target="_blank" rel="noopener">GitHub ↗</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="case-hero">
+      <div class="container case-hero-inner">
+        <a class="back-link" href="../index.html#work">← Back to selected work</a>
+
+        <div class="case-badges">
+          <span>Document Intelligence</span>
+          <span>OCR + LLM</span>
+          <span>Human-in-the-Loop</span>
+        </div>
+
+        <h1>AI-Powered Invoice Extraction</h1>
+        <p class="case-lead">
+          An OCR + LLM pipeline that auto-populates invoice fields in an internal
+          invoicing application, replacing slow, error-prone manual data entry.
+        </p>
+
+        <div class="case-meta">
+          <div>
+            <span>Role</span>
+            <strong>Technical Lead / Principal</strong>
+          </div>
+          <div>
+            <span>Domain</span>
+            <strong>Finance Operations</strong>
+          </div>
+          <div>
+            <span>Pattern</span>
+            <strong>OCR + LLM Extraction</strong>
+          </div>
+          <div>
+            <span>Control</span>
+            <strong>Human Approval</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="case-section">
+      <div class="container case-grid">
+        <aside class="case-sidebar">
+          <p class="eyebrow">01 — Problem</p>
+          <h2>Manual invoice entry was creating avoidable downstream work.</h2>
+        </aside>
+
+        <div class="case-content">
+          <p>
+            Around <strong>30% of monthly payment-request-form (PRF) rejections</strong>
+            came from data mismatches. Those rejections created payment delays and
+            vendor escalations.
+          </p>
+          <p>
+            The goal was not simply to extract text from invoices. The system needed
+            to identify the right business fields across invoices that differed
+            significantly in layout, wording, and structure.
+          </p>
+
+          <div class="callout">
+            <strong>Core engineering problem</strong>
+            <p>
+              Build an automation layer that improves data-entry speed and accuracy
+              without allowing an AI extraction error to become an incorrect payment record.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="case-section case-dark">
+      <div class="container case-grid">
+        <aside class="case-sidebar">
+          <p class="eyebrow">02 — Why AI</p>
+          <h2>OCR reads the document. LLM extraction interprets it.</h2>
+        </aside>
+
+        <div class="case-content">
+          <p>
+            Vendors use different invoice formats and inconsistent field labels.
+            Traditional OCR can extract the text, but text extraction alone does not
+            reliably determine which value belongs to which business field.
+          </p>
+
+          <div class="comparison">
+            <div class="comparison-card">
+              <span class="comparison-label">Traditional approach</span>
+              <h3>OCR + rules</h3>
+              <ul>
+                <li>Extract text from the document</li>
+                <li>Identify fields using fixed patterns or vendor rules</li>
+                <li>Requires rules to evolve as formats change</li>
+              </ul>
+            </div>
+
+            <div class="comparison-card featured">
+              <span class="comparison-label">Chosen approach</span>
+              <h3>OCR + LLM</h3>
+              <ul>
+                <li>OCR reads the document pixels</li>
+                <li>LLM interprets field meaning and context</li>
+                <li>Generalizes across varied vendor formats</li>
+              </ul>
+            </div>
+          </div>
+
+          <p class="section-note">
+            The LLM is used for interpretation and structured extraction; it is not
+            the final authority for payment approval.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="case-section">
+      <div class="container">
+        <p class="eyebrow">03 — Architecture</p>
+        <h2 class="section-title">Two entry points, one controlled extraction pipeline.</h2>
+
+        <div class="architecture">
+          <div class="flow">
+            <div class="flow-title">Phase 1 — Inline auto-fill</div>
+            <div class="flow-row">
+              <div class="flow-node">
+                <strong>01</strong>
+                <span>User uploads invoice</span>
+                <small>PDF / image</small>
+              </div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-node">
+                <strong>02</strong>
+                <span>Extraction service</span>
+                <small>OCR + LLM</small>
+              </div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-node">
+                <strong>03</strong>
+                <span>Structured fields</span>
+                <small>Invoice data</small>
+              </div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-node human">
+                <strong>04</strong>
+                <span>Human verifies</span>
+                <small>Before submission</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="flow">
+            <div class="flow-title">Phase 2 — Email-based draft PRF</div>
+            <div class="flow-row">
+              <div class="flow-node">
+                <strong>01</strong>
+                <span>Shared mailbox</span>
+                <small>Invoice attachment</small>
+              </div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-node">
+                <strong>02</strong>
+                <span>Background job</span>
+                <small>Extract attachment</small>
+              </div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-node">
+                <strong>03</strong>
+                <span>Extraction service</span>
+                <small>OCR + LLM</small>
+              </div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-node human">
+                <strong>04</strong>
+                <span>Draft PRF + review</span>
+                <small>Team approval</small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="architecture-principle">
+          <strong>Design principle:</strong>
+          AI accelerates the workflow; humans retain approval of the business record.
+        </div>
+      </div>
+    </section>
+
+    <section class="case-section case-light">
+      <div class="container case-grid">
+        <aside class="case-sidebar">
+          <p class="eyebrow">04 — Human-in-the-Loop</p>
+          <h2>Automation without surrendering business control.</h2>
+        </aside>
+
+        <div class="case-content">
+          <p>
+            Both rollout phases keep a human in the loop. In the inline flow, the
+            extracted fields are populated into the existing PRF form for verification.
+            In the email flow, a draft PRF is created and routed to the invoicing team
+            for review.
+          </p>
+
+          <div class="principles">
+            <div>
+              <span>01</span>
+              <h3>AI extracts</h3>
+              <p>Interpret invoice content and produce structured fields.</p>
+            </div>
+            <div>
+              <span>02</span>
+              <h3>Human verifies</h3>
+              <p>Review the extracted information before submission or approval.</p>
+            </div>
+            <div>
+              <span>03</span>
+              <h3>System records</h3>
+              <p>Only the reviewed workflow progresses toward the business record.</p>
+            </div>
+          </div>
+
+          <div class="callout warning">
+            <strong>Control boundary</strong>
+            <p>
+              The AI extraction service never finalizes the payment record on its own.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="case-section">
+      <div class="container">
+        <p class="eyebrow">05 — Functional Highlights</p>
+        <h2 class="section-title">Designed around the existing invoicing workflow.</h2>
+
+        <div class="feature-grid">
+          <article>
+            <span>01</span>
+            <h3>PRF auto-fill</h3>
+            <p>Extract invoice fields and populate the existing payment-request form.</p>
+          </article>
+          <article>
+            <span>02</span>
+            <h3>Email-driven drafts</h3>
+            <p>Create draft PRFs from invoices received through the shared mailbox.</p>
+          </article>
+          <article>
+            <span>03</span>
+            <h3>Review workflow</h3>
+            <p>Route generated drafts to the invoicing team for human verification.</p>
+          </article>
+          <article>
+            <span>04</span>
+            <h3>Format flexibility</h3>
+            <p>Use contextual extraction rather than maintaining a rule set for every vendor.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="case-section case-dark">
+      <div class="container">
+        <p class="eyebrow">06 — Success Metrics</p>
+        <h2 class="section-title">The program was designed around measurable outcomes.</h2>
+
+        <div class="metrics-note">
+          <strong>Important:</strong> These are program targets from the case study,
+          not measured production results. Production figures should replace them once
+          they are cleared for external sharing.
+        </div>
+
+        <div class="metrics-grid">
+          <div class="metric">
+            <strong>≥90%</strong>
+            <span>Auto-fill accuracy target</span>
+          </div>
+          <div class="metric">
+            <strong>≥60%</strong>
+            <span>PRF creation time reduction target</span>
+          </div>
+          <div class="metric">
+            <strong>≥50%</strong>
+            <span>Rejection reduction target</span>
+          </div>
+          <div class="metric">
+            <strong>≥30%</strong>
+            <span>Draft PRFs from email target</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="case-section">
+      <div class="container case-grid">
+        <aside class="case-sidebar">
+          <p class="eyebrow">07 — Trade-offs</p>
+          <h2>Where the design deliberately chose flexibility and control.</h2>
+        </aside>
+
+        <div class="case-content">
+          <div class="decision-list">
+            <div class="decision">
+              <span>01</span>
+              <div>
+                <h3>OCR + LLM instead of regex-heavy extraction</h3>
+                <p>
+                  Vendor invoices vary significantly. Context-based extraction was
+                  selected to generalize across formats rather than creating a growing
+                  collection of vendor-specific rules.
+                </p>
+              </div>
+            </div>
+
+            <div class="decision">
+              <span>02</span>
+              <div>
+                <h3>Human review in both phases</h3>
+                <p>
+                  Invoice errors can have financial consequences, so automation was
+                  intentionally designed as an accelerator rather than an autonomous approver.
+                </p>
+              </div>
+            </div>
+
+            <div class="decision">
+              <span>03</span>
+              <div>
+                <h3>Two entry points</h3>
+                <p>
+                  The solution supports both user-uploaded invoices and invoices arriving
+                  through the shared mailbox.
+                </p>
+              </div>
+            </div>
+
+            <div class="decision">
+              <span>04</span>
+              <div>
+                <h3>Structured fields inside the existing application</h3>
+                <p>
+                  The extraction output is integrated into the existing PRF experience,
+                  avoiding a separate workflow or user retraining.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="case-section case-light">
+      <div class="container">
+        <p class="eyebrow">08 — Design FAQ</p>
+        <h2 class="section-title">Questions I would expect in an architecture review.</h2>
+
+        <div class="faq-grid">
+          <details open>
+            <summary>Why not create a template for every vendor?</summary>
+            <p>
+              Per-vendor templates do not scale well when invoice formats change or
+              the number of vendors grows. The LLM-based approach uses context to
+              generalize across different formats.
+            </p>
+          </details>
+
+          <details>
+            <summary>Why keep a human in the loop?</summary>
+            <p>
+              The workflow deals with invoice information that can affect payments.
+              Human verification provides a control point before the extracted data
+              becomes part of the business workflow.
+            </p>
+          </details>
+
+          <details>
+            <summary>How is accuracy evaluated?</summary>
+            <p>
+              The success framework compares auto-fill accuracy, PRF creation time,
+              and rejection rate against the manual baseline.
+            </p>
+          </details>
+
+          <details>
+            <summary>What is the role of the LLM?</summary>
+            <p>
+              The LLM interprets the OCR output and extracts the required structured
+              fields. It is not responsible for final payment approval.
+            </p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="case-section role-section">
+      <div class="container role-inner">
+        <div>
+          <p class="eyebrow">09 — My Role</p>
+          <h2>Technical leadership across the solution design and rollout.</h2>
+        </div>
+
+        <div class="role-copy">
+          <p>
+            I led the design and delivery of the OCR + LLM extraction approach, the
+            two-phase rollout, the human-in-the-loop review workflow, and the
+            success-metric framework.
+          </p>
+
+          <div class="stack">
+            <span>OCR</span>
+            <span>LLM Extraction</span>
+            <span>Document AI</span>
+            <span>Human-in-the-Loop</span>
+            <span>Email Automation</span>
+            <span>Python</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <span>© Raju Singh</span>
+      <a href="../index.html">Back to portfolio ↑</a>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solution Center Automation | Raju Singh</title>
+  <meta name="description" content="Case study: a multi-system agentic automation platform for employee service desk requests.">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="agentic-testing.css">
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="../index.html">Raju Singh</a>
+      <nav>
+        <a href="../index.html#work">Work</a>
+        <a href="../index.html#engineering">Engineering</a>
+        <a href="../index.html#about">About</a>
+        <a href="../index.html#writing">Writing</a>
+        <a href="https://github.com/rajuslaw" target="_blank" rel="noopener">GitHub ↗</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="case-hero">
+      <div class="container case-hero-inner">
+        <a class="back-link" href="../index.html#work">← Back to selected work</a>
+
+        <div class="case-badges">
+          <span>Agentic Automation</span>
+          <span>Tool Use + Routing</span>
+          <span>Service Accounts + Vault</span>
+        </div>
+
+        <h1>Solution Center Automation</h1>
+        <p class="case-lead">
+          A multi-system automation agent that reads employee service requests,
+          understands intent, routes to the right backend, executes the action,
+          and sends a professional response.
+        </p>
+
+        <div class="case-meta">
+          <div>
+            <span>Role</span>
+            <strong>Technical Lead / Principal</strong>
+          </div>
+          <div>
+            <span>Domain</span>
+            <strong>Employee Service Desk</strong>
+          </div>
+          <div>
+            <span>Pattern</span>
+            <strong>Agentic Automation</strong>
+          </div>
+          <div>
+            <span>Execution</span>
+            <strong>API-first + UI fallback</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="case-section">
+      <div class="container case-grid">
+        <aside class="case-sidebar">
+          <p class="eyebrow">01 — Problem</p>
+          <h2>Routine service requests were consuming human effort across multiple systems.</h2>
+        </aside>
+
+        <div class="case-content">
+          <p>
+            Employees used a shared service desk to request routine operational tasks
+            such as travel and expense requests, corporate-card balance lookups, and
+            invoice queries.
+          </p>
+          <p>
+            Each request required a person to read the email, identify the right system,
+            log in, retrieve or submit information, and write a response. The workflow
+            was repetitive and spread across different enterprise applications.
+          </p>
+
+          <div class="callout">
+            <strong>Goal</strong>
+            <p>
+              Absorb routine requests end to end and escalate exceptions instead of
+              requiring a human to execute every standard request.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="case-section case-dark">
+      <div class="container">
+        <p class="eyebrow">02 — Architecture</p>
+        <h2 class="section-title">Read → understand → act → respond.</h2>
+
+        <div class="agent-flow">
+          <div class="agent-node">
+            <span>01</span>
+            <strong>Inbound email</strong>
+            <small>IMAP / Microsoft Graph</small>
+          </div>
+          <div class="agent-arrow">→</div>
+          <div class="agent-node">
+            <span>02</span>
+            <strong>Intent + entities</strong>
+            <small>LLM / embeddings</small>
+          </div>
+          <div class="agent-arrow">→</div>
+          <div class="agent-node">
+            <span>03</span>
+            <strong>Decision routing</strong>
+            <small>Target backend</small>
+          </div>
+          <div class="agent-arrow">→</div>
+          <div class="agent-node">
+            <span>04</span>
+            <strong>Tool execution</strong>
+            <small>API / UI automation</small>
+          </div>
+          <div class="agent-arrow">→</div>
+          <div class="agent-node">
+            <span>05</span>
+            <strong>Response</strong>
+            <small>LLM + SMTP / Graph</small>
+          </div>
+        </div>
+
+        <div class="system-map">
+          <div class="system-map-title">Backend targets</div>
+          <div class="system-grid">
+            <div>
+              <strong>Travel &amp; Expense</strong>
+              <span>Travel / expense requests</span>
+            </div>
+            <div>
+              <strong>Corporate Card</strong>
+              <span>Card balance lookups</span>
+            </div>
+            <div>
+              <strong>Invoicing</strong>
+              <span>Invoice queries</span>
+            </div>
+          </div>
+        </div>
+
+        <p class="dark-note">
+          The architecture separates language understanding and routing from the
+          deterministic action layer, allowing the same agent pattern to work across
+          multiple enterprise systems.
+        </p>
+      </div>
+    </section>
+
+    <section class="case-section">
+      <div class="container">
+        <p class="eyebrow">03 — The Four Stages</p>
+        <h2 class="section-title">Each stage has a clear responsibility.</h2>
+
+        <div class="stage-list">
+          <article class="stage">
+            <div class="stage-number">01</div>
+            <div>
+              <h3>Email reading &amp; intent detection</h3>
+              <p>
+                Read inbound mail through IMAP or Microsoft Graph. Detect the request
+                intent and extract entities such as user, request date, and card or
+                reference IDs.
+              </p>
+            </div>
+          </article>
+
+          <article class="stage">
+            <div class="stage-number">02</div>
+            <div>
+              <h3>Decision routing</h3>
+              <p>
+                Map the detected intent to the target backend. Common requests use
+                classifier or embedding-based routing, while ambiguous cases can use
+                LLM function-calling. The intent-to-system mapping is stored explicitly.
+              </p>
+            </div>
+          </article>
+
+          <article class="stage">
+            <div class="stage-number">03</div>
+            <div>
+              <h3>Action execution across systems</h3>
+              <p>
+                Prefer APIs using OAuth2 or token authentication and REST calls.
+                Where a system has no suitable API, use headless browser automation
+                with Playwright as the fallback.
+              </p>
+            </div>
+          </article>
+
+          <article class="stage">
+            <div class="stage-number">04</div>
+            <div>
+              <h3>Response generation &amp; reply</h3>
+              <p>
+                Convert the structured execution result into a natural, professional
+                email and send it through SMTP or Microsoft Graph.
+              </p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="case-section case-light">
+      <div class="container case-grid">
+        <aside class="case-sidebar">
+          <p class="eyebrow">04 — Security &amp; Access</p>
+          <h2>Enterprise access is part of the architecture, not an afterthought.</h2>
+        </aside>
+
+        <div class="case-content">
+          <p>
+            An automation agent operating inside real enterprise systems needs
+            controlled, auditable access to those systems.
+          </p>
+
+          <div class="security-grid">
+            <div>
+              <span>01</span>
+              <h3>Service identities</h3>
+              <p>Use service accounts or delegated access instead of personal credentials.</p>
+            </div>
+            <div>
+              <span>02</span>
+              <h3>Strong authentication</h3>
+              <p>Use OAuth2 tokens or SSO integration for backend access.</p>
+            </div>
+            <div>
+              <span>03</span>
+              <h3>Vaulted secrets</h3>
+              <p>Store credentials in a managed vault, never directly in application code.</p>
+            </div>
+            <div>
+              <span>04</span>
+              <h3>Auditable automation</h3>
+              <p>Prefer headless and traceable automation paths for operational actions.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="case-section">
+      <div class="container">
+        <p class="eyebrow">05 — Build Approach</p>
+        <h2 class="section-title">The design makes explicit trade-offs at each layer.</h2>
+
+        <div class="decision-table">
+          <div class="decision-row header">
+            <div>Decision</div>
+            <div>Choice</div>
+            <div>Why</div>
+            <div>Trade-off</div>
+          </div>
+
+          <div class="decision-row">
+            <div>Intent / entity</div>
+            <div>LLM + embeddings</div>
+            <div>Handles free-form email language</div>
+            <div>Needs evaluation + guardrails</div>
+          </div>
+
+          <div class="decision-row">
+            <div>Routing</div>
+            <div>Classifier + LLM function-calling</div>
+            <div>Fast for common cases, flexible for ambiguous requests</div>
+            <div>Two code paths</div>
+          </div>
+
+          <div class="decision-row">
+            <div>Action layer</div>
+            <div>API-first, UI fallback</div>
+            <div>APIs scale; UI automation unlocks systems without APIs</div>
+            <div>UI automation is more brittle</div>
+          </div>
+
+          <div class="decision-row">
+            <div>Reply</div>
+            <div>LLM from structured data</div>
+            <div>Natural and consistent communication</div>
+            <div>Must validate before sending</div>
+          </div>
+
+          <div class="decision-row">
+            <div>Access</div>
+            <div>Service accounts + vault + SSO</div>
+            <div>Security and auditability</div>
+            <div>More setup than personal credentials</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="case-section case-dark">
+      <div class="container case-grid">
+        <aside class="case-sidebar">
+          <p class="eyebrow">06 — Why Agentic</p>
+          <h2>This is more than a single LLM prompt.</h2>
+        </aside>
+
+        <div class="case-content">
+          <p>
+            The system forms a multi-step agent loop: it <strong>perceives</strong>
+            by reading email, <strong>decides</strong> through intent detection and
+            routing, <strong>acts</strong> through tools across enterprise systems,
+            and <strong>communicates</strong> by composing and sending a response.
+          </p>
+
+          <div class="agent-principles">
+            <div>
+              <strong>Perceive</strong>
+              <span>Read and interpret the request</span>
+            </div>
+            <div>
+              <strong>Decide</strong>
+              <span>Select intent, system and action</span>
+            </div>
+            <div>
+              <strong>Act</strong>
+              <span>Invoke APIs or browser automation</span>
+            </div>
+            <div>
+              <strong>Communicate</strong>
+              <span>Return a structured result as a professional reply</span>
+            </div>
+          </div>
+
+          <div class="callout dark-callout">
+            <strong>Key architectural idea</strong>
+            <p>
+              LLMs handle language and ambiguity; explicit routing, tools,
+              access controls, and validation govern what the system actually does.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="case-section case-light">
+      <div class="container">
+        <p class="eyebrow">07 — Design FAQ</p>
+        <h2 class="section-title">Questions I would expect in an architecture review.</h2>
+
+        <div class="faq-grid">
+          <details open>
+            <summary>How does the agent act when a system has no API?</summary>
+            <p>
+              APIs are preferred. For UI-only systems, headless browser automation
+              with Playwright can log in using a service account, navigate the
+              application, read data, and submit forms.
+            </p>
+          </details>
+
+          <details>
+            <summary>How are credentials protected?</summary>
+            <p>
+              Service accounts or delegated access are used with OAuth2 or SSO,
+              while secrets are stored in a managed vault rather than in code.
+            </p>
+          </details>
+
+          <details>
+            <summary>What prevents a misclassified request from taking the wrong action?</summary>
+            <p>
+              Routing combines fast classification with LLM function-calling for
+              ambiguous cases. Responses are validated before sending, and low-confidence
+              or exceptional requests are escalated instead of being actioned blindly.
+            </p>
+          </details>
+
+          <details>
+            <summary>Why is API-first important?</summary>
+            <p>
+              APIs provide a more scalable and robust execution path. UI automation
+              is useful when no API exists, but it is more brittle and harder to maintain.
+            </p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="case-section role-section">
+      <div class="container role-inner">
+        <div>
+          <p class="eyebrow">08 — My Role</p>
+          <h2>Designed the agent architecture and the enterprise execution model.</h2>
+        </div>
+
+        <div class="role-copy">
+          <p>
+            I designed and led the four-stage architecture, routing strategy,
+            API-first / UI-automation-fallback execution model, and secure-access design.
+          </p>
+
+          <div class="stack">
+            <span>Agents</span>
+            <span>Intent Detection</span>
+            <span>Tool Use / Routing</span>
+            <span>LLM Function-Calling</span>
+            <span>LangChain</span>
+            <span>Playwright</span>
+            <span>Microsoft Graph</span>
+            <span>OAuth2</span>
+            <span>Python</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <span>© Raju Singh</span>
+      <a href="../index.html">Back to portfolio ↑</a>
+    </div>
+  </footer>
+</body>
+</html>
