@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Architecture Decisions for Production AI | Raju Singh</title>
+<meta name="description" content="Production AI architecture is a series of explicit trade-offs across accuracy, latency, cost, security, complexity and operational ownership.">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="writing.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="container nav">
+    <a href="../index.html" class="logo">Raju Singh<span>.</span></a>
+    <nav>
+      <a href="../index.html#work">Work</a>
+      <a href="../index.html#approach">Engineering</a>
+      <a href="../index.html#about">About</a>
+      <a href="../index.html#writing">Writing</a>
+    </nav>
+    <a href="https://github.com/rajuslaw" target="_blank" class="github-link">GitHub ↗</a>
+  </div>
+</header>
+<main>
+<section class="writing-hero">
+  <div class="container">
+    <a class="back-link" href="../index.html#writing">← Back to writing</a>
+    <div class="eyebrow" style="margin-top:35px;">SYSTEM DESIGN · TRADE-OFFS</div>
+    <h1>Architecture Decisions for Production AI</h1>
+    <p>Production AI architecture is a series of explicit trade-offs across accuracy, latency, cost, security, complexity and operational ownership.</p>
+  </div>
+</section>
+<section class="article">
+  <div class="container">
+    <article class="article-inner">
+      <h2>Start with system boundaries</h2>
+<p>Before choosing a model or framework, define the data sources, trust boundaries, user journey, failure modes and the parts of the workflow that must remain deterministic.</p>
+<h2>Choose technology based on the workload</h2>
+<p>Managed services can reduce operational overhead, while self-hosted components can provide more control over cost, latency or data handling. Neither is universally correct.</p>
+<ul>
+<li>Managed vector infrastructure reduces infrastructure ownership but can increase vendor dependency.</li>
+<li>Self-hosted reranking can avoid per-call API costs but creates infrastructure responsibility.</li>
+<li>Hybrid retrieval can improve recall and precision but increases system complexity.</li>
+</ul>
+<h2>Make reliability visible</h2>
+<p>A production architecture should make its failure behavior explicit: what happens when the model provider is unavailable, retrieval fails, data changes, or a request is rate limited?</p>
+<h2>Revisit the architecture deliberately</h2>
+<p>Good architecture is not static. As traffic, data volume and latency requirements change, the system may need real-time ingestion, additional replicas, stronger evaluation or more automated validation.</p>
+      <div class="article-callout">
+        <p><strong>Engineering principle:</strong> Production AI is not only about the model. Architecture, security, evaluation, reliability, observability and operational trade-offs determine whether the system is useful in the real world.</p>
+      </div>
+    </article>
+  </div>
+</section>
+</main>
+<footer>
+  <div class="container footer-inner">
+    <a href="../index.html#writing">← Back to portfolio</a>
+    <span>Raju Singh · Engineering notes</span>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Building Reliable Agentic AI Systems | Raju Singh</title>
+<meta name="description" content="Agentic systems become useful when language understanding is connected to explicit tools, routing, validation and controlled execution.">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="writing.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="container nav">
+    <a href="../index.html" class="logo">Raju Singh<span>.</span></a>
+    <nav>
+      <a href="../index.html#work">Work</a>
+      <a href="../index.html#approach">Engineering</a>
+      <a href="../index.html#about">About</a>
+      <a href="../index.html#writing">Writing</a>
+    </nav>
+    <a href="https://github.com/rajuslaw" target="_blank" class="github-link">GitHub ↗</a>
+  </div>
+</header>
+<main>
+<section class="writing-hero">
+  <div class="container">
+    <a class="back-link" href="../index.html#writing">← Back to writing</a>
+    <div class="eyebrow" style="margin-top:35px;">AGENTIC AI · TOOL USE</div>
+    <h1>Building Reliable Agentic AI Systems</h1>
+    <p>Agentic systems become useful when language understanding is connected to explicit tools, routing, validation and controlled execution.</p>
+  </div>
+</section>
+<section class="article">
+  <div class="container">
+    <article class="article-inner">
+      <h2>An agent is more than a prompt</h2>
+<p>A practical enterprise agent perceives an input, decides what needs to happen, invokes tools, validates the result and communicates the outcome. The important engineering work is in the boundaries between those steps.</p>
+<h2>Keep actions explicit</h2>
+<p>LLMs are useful for interpreting ambiguous language, but the action layer should expose well-defined tools with clear inputs and outputs.</p>
+<ul>
+<li>Use structured schemas for tool arguments.</li>
+<li>Keep intent-to-system mappings explicit.</li>
+<li>Prefer deterministic APIs where they exist.</li>
+<li>Use browser automation only when an API is unavailable.</li>
+</ul>
+<h2>Add guardrails around consequential actions</h2>
+<p>Actions that affect enterprise records, payments or access should have authentication, authorization, validation and auditability around them. Low-confidence or exceptional requests should have a controlled escalation path.</p>
+<h2>API-first, UI fallback</h2>
+<p>APIs are generally easier to scale and maintain. Where an enterprise system exposes only a web interface, headless browser automation can provide a practical fallback, but it introduces additional brittleness and operational ownership.</p>
+      <div class="article-callout">
+        <p><strong>Engineering principle:</strong> Production AI is not only about the model. Architecture, security, evaluation, reliability, observability and operational trade-offs determine whether the system is useful in the real world.</p>
+      </div>
+    </article>
+  </div>
+</section>
+</main>
+<footer>
+  <div class="container footer-inner">
+    <a href="../index.html#writing">← Back to portfolio</a>
+    <span>Raju Singh · Engineering notes</span>
+  </div>
+</footer>
+</body>
+</html>

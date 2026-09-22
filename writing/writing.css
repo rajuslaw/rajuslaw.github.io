@@ -1,0 +1,20 @@
+
+.writing-hero { padding: 120px 0 70px; border-bottom: 1px solid var(--border); }
+.writing-hero h1 { margin-top: 16px; max-width: 900px; font-size: clamp(44px, 6vw, 72px); line-height: 1.02; letter-spacing: -.045em; }
+.writing-hero p { max-width: 760px; margin-top: 24px; color: #aeb5c0; font-size: 18px; line-height: 1.7; }
+.article { padding: 90px 0 110px; }
+.article-inner { max-width: 850px; }
+.article h2 { margin: 50px 0 15px; font-size: 30px; letter-spacing: -.035em; }
+.article p, .article li { color: #aeb5c0; font-size: 17px; line-height: 1.8; }
+.article ul { padding-left: 24px; margin-top: 15px; }
+.article li { margin-bottom: 8px; }
+.article-callout { margin: 35px 0; padding: 25px; border-left: 3px solid var(--accent); background: #11141a; }
+.article-callout p { margin: 0; }
+.back-link { color: var(--muted); font-size: 14px; }
+.back-link:hover { color: var(--text); }
+@media (max-width: 600px) {
+  .writing-hero { padding: 75px 0 55px; }
+  .article { padding: 65px 0 80px; }
+  .article h2 { font-size: 26px; }
+  .article p, .article li { font-size: 16px; }
+}
